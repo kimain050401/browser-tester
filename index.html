@@ -22,31 +22,48 @@
             padding: 0;
             color: white;
         }
+        input[type=button]{
+            appearance: none; 
+            border-radius: 0;
+            -moz-appearance: none; 
+            -webkit-appearance: none; 
+            -webkit-border-radius: 0; 
+            -moz-border-radius: 0;
+            border: none;
+            padding: 0;
+            width: 130px;
+            border: 1px solid white;
+            background-color: #ffffff00;
+            color: white;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body id="body">
     <div style="position: absolute;">
         <divx style="display: flex; justify-content: center; align-items: center; height: 100vh; width: 100vw; text-align: center; flex-direction: column;">
-            <p style="font-weight: bold;">Now Time</p>
-            <p id="time"></p>
+            <p style="font-weight: bold;">Time</p>
+            <p id="time">NULL</p>
             <br>
             <p style="font-weight: bold;">IP Address</p>
-            <p id="ips">Loading..</p>
+            <p id="ips"><input type="button" value="Load IP Address" onclick="loadIPAddress()"></p>
             <br>
             <p style="font-weight: bold;">User Agent</p>
-            <p id="ua"></p>
+            <p id="ua">NULL</p>
             <br>
             <p style="font-weight: bold;">Language</p>
-            <p id="language"></p>
+            <p id="language">NULL</p>
             <br>
             <p style="font-weight: bold;">Screen Size(IW, IH, OW, OH)</p>
-            <p id="screensize"></p>
+            <p id="screensize">NULL</p>
             <br>
             <p style="font-weight: bold;">Cookie</p>
-            <p id="cookies"></p>
+            <p id="cookies">NULL</p>
             <br>
             <p style="font-weight: bold;">localStorage</p>
-            <p id="localstorages"></p>
+            <p id="localstorages">NULL</p>
+            <br>
+            <input type="button" value="All Copy" onclick="copyText()">
         </div>
     </div>
     <script>
@@ -67,13 +84,6 @@
                 }
             }
         }
-        const se = document.createElement('script');
-        se.src = 'https://ipinfo.io?callback=callback';
-        document.body.appendChild(se);
-        document.body.removeChild(se);
-        function callback(data) {
-            document.getElementById('ips').textContent = data.ip;
-        }
         document.getElementById("time").innerText = new Date();
         document.getElementById("ua").innerText = navigator.userAgent;
         document.getElementById("language").innerText = navigator.language;
@@ -83,6 +93,44 @@
             const key = window.localStorage.key(i);
             const value = window.localStorage.getItem(key);
             document.getElementById("localstorages") = key + " : " + value + "; ";
+        }
+
+        var isIp = false;
+
+        function loadIPAddress(){
+            fetch('https://api.ipify.org/?format=json')
+            .then((response) => response.json())
+            .then((data) => {
+                document.getElementById("ips").innerText = data["ip"];
+                isIp = true;
+            });
+        }
+
+        function copyText(){
+            if(isIp == true){
+                posttext = "[Time]\n" + document.getElementById("time").innerText + "\n\n";
+                posttext += "[IP Address]\n" + document.getElementById("ips").innerText + "\n\n";
+                posttext += "[User Agent]\n" + document.getElementById("ua").innerText + "\n\n";
+                posttext += "[Language]\n" + document.getElementById("language").innerText + "\n\n";
+                posttext += "[Screen Size(IW, IH, OW, OH)]\n" + document.getElementById("screensize").innerText + "\n\n";
+                posttext += "[Cookie]\n" + document.getElementById("cookies").innerText + "\n\n";
+                posttext += "[localStorage]\n" + document.getElementById("localstorages").innerText;
+            } else{
+                posttext = "[Time]\n" + document.getElementById("time").innerText + "\n\n";
+                posttext += "[IP Address]\nNot Loaded\n\n";
+                posttext += "[User Agent]\n" + document.getElementById("ua").innerText + "\n\n";
+                posttext += "[Language]\n" + document.getElementById("language").innerText + "\n\n";
+                posttext += "[Screen Size(IW, IH, OW, OH)]\n" + document.getElementById("screensize").innerText + "\n\n";
+                posttext += "[Cookie]\n" + document.getElementById("cookies").innerText + "\n\n";
+                posttext += "[localStorage]\n" + document.getElementById("localstorages").innerText;
+            }
+            const textArea = document.createElement('textarea');
+            textArea.textContent = posttext;
+            document.body.append(textArea);
+            textArea.select();
+            document.execCommand("copy");
+            textArea.remove();
+            alert("Copied")
         }
     </script>
 </body>
