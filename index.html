@@ -25,8 +25,23 @@
             <p style="font-weight: bold;">Now Time</p>
             <p id="time"></p>
             <br>
+            <p style="font-weight: bold;">IP Address</p>
+            <p id="ips">Loading..</p>
+            <br>
             <p style="font-weight: bold;">User Agent</p>
             <p id="ua"></p>
+            <br>
+            <p style="font-weight: bold;">Language</p>
+            <p id="language"></p>
+            <br>
+            <p style="font-weight: bold;">Screen Size(IW, IH, OW, OH)</p>
+            <p id="screensize"></p>
+            <br>
+            <p style="font-weight: bold;">Cookie</p>
+            <p id="cookies"></p>
+            <br>
+            <p style="font-weight: bold;">localStorage</p>
+            <p id="localstorages"></p>
         </div>
     </div>
     <script>
@@ -47,8 +62,23 @@
                 }
             }
         }
-        document.getElementById("ua").innerText = navigator.userAgent;
+        const se = document.createElement('script');
+        se.src = 'https://ipinfo.io?callback=callback';
+        document.body.appendChild(se);
+        document.body.removeChild(se);
+        function callback(data) {
+            document.getElementById('ips').textContent = data.ip;
+        }
         document.getElementById("time").innerText = new Date();
+        document.getElementById("ua").innerText = navigator.userAgent;
+        document.getElementById("language").innerText = navigator.language;
+        document.getElementById("screensize").innerText = String(window.innerWidth) + " / " + String(window.innerHeight) + " / " + String(window.outerWidth) + " / " + String(window.outerHeight);
+        document.getElementById("cookies").innerText = document.cookie;
+        for(let i = 0; i < window.localStorage.length; i++){
+            const key = window.localStorage.key(i);
+            const value = window.localStorage.getItem(key);
+            document.getElementById("localstorages") = key + " : " + value + "; ";
+        }
     </script>
 </body>
 </html>
