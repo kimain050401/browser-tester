@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser Test</title>
+    <style>
+        html, body{
+            margin: 0;
+            padding: 0;
+        }
+        p{
+            font-size: 16px;
+            line-height: 20px;
+            margin: 0;
+            padding: 0;
+            color: white;
+        }
+    </style>
+</head>
+<body id="body">
+    <div style="position: absolute;">
+        <divx style="display: flex; justify-content: center; align-items: center; height: 100vh; width: 100vw; text-align: center; flex-direction: column;">
+            <p style="font-weight: bold;">Now Time</p>
+            <p id="time"></p>
+            <br>
+            <p style="font-weight: bold;">User Agent</p>
+            <p id="ua"></p>
+        </div>
+    </div>
+    <script>
+        for(var heightIndex = 0; heightIndex < 10; heightIndex++){
+            for(var widthIndex = 0; widthIndex < 10; widthIndex++){
+                if(heightIndex % 2 == 1){
+                    if(widthIndex % 2 == 1){
+                        document.getElementById("body").innerHTML += '<div style="background-color: #0c6efd; width: 10vw; height: 10vh; float: left; display: inline-block;">'
+                    } else{
+                        document.getElementById("body").innerHTML += '<div style="background-color: #1b8754; width: 10vw; height: 10vh; float: left; display: inline-block;">'
+                    }
+                } else{
+                    if(widthIndex % 2 == 1){
+                        document.getElementById("body").innerHTML += '<div style="background-color: #1b8754; width: 10vw; height: 10vh; float: left; display: inline-block;">'
+                    } else{
+                        document.getElementById("body").innerHTML += '<div style="background-color: #0c6efd; width: 10vw; height: 10vh; float: left; display: inline-block;">'
+                    }
+                }
+            }
+        }
+        document.getElementById("ua").innerText = navigator.userAgent;
+        document.getElementById("time").innerText = new Date();
+    </script>
+</body>
+</html>
