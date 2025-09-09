@@ -44,6 +44,7 @@
         <divx style="display: flex; justify-content: center; align-items: center; height: 100vh; width: 100vw; text-align: center; flex-direction: column;">
             <p style="font-weight: bold;">Time</p>
             <p id="time">NULL</p>
+            <p id="fulltime">NULL</p>
             <br>
             <p style="font-weight: bold;">IP Address</p>
             <p id="ips"><input type="button" value="Load IP Address" onclick="loadIPAddress()"></p>
@@ -109,6 +110,17 @@
                 isIp = true;
             });
         }
+
+        const now = new Date();
+        const YYYY = now.getFullYear().toString();
+        const MM = String(now.getMonth() + 1).padStart(2, "0");
+        const DD = String(now.getDate()).padStart(2, "0");
+        const hh = String(now.getHours()).padStart(2, "0");
+        const mm = String(now.getMinutes()).padStart(2, "0");
+        const ss = String(now.getSeconds()).padStart(2, "0");
+        const ms = now.getMilliseconds();
+        const micro = (ms * 1000 + Math.floor(Math.random() * 1000)).toString().padStart(6, "0");
+        document.getElementById("fulltime").innerText = `${YYYY}${MM}${DD}${hh}${mm}${ss}${micro}`;
 
         function copyText(){
             if(isIp == true){
